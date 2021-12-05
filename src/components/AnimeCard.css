@@ -1,0 +1,11 @@
+.anime-card{
+    align-items: center;
+    text-align: center;
+    margin: 0 auto;
+    gap: 15px !important;
+    font-family: sans-serif;
+    border-radius: 6px !important;
+}
+.anime-card:hover{
+    box-shadow: 3px 3px rgb(235, 234, 234);
+}
