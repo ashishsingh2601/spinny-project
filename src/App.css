@@ -7,6 +7,7 @@ body{
   background-color: rgb(79, 79, 250) !important;
 }
 .main-container{
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr) !important;
   gap: 15px !important; 
@@ -22,20 +23,25 @@ body{
   width: 100%;
   padding: 1rem;
   border-radius: 9px;
-  border: none;
+  border: solid 1px rgb(79, 79, 250) !important;
+  background-color: rgb(116, 116, 255) !important;
+  color: #fff !important;
+}
+::placeholder{
+  color: #fff !important;
 }
 .search-button{
   position: absolute;
   right: 0;
   margin: 0.5rem;
   cursor: pointer;
-  background-color: #fff !important;
-  color: grey !important;
-  border: solid 3px grey;
+  /* background-color: #fff !important; */
+  color: #fff !important;
+  border: none
 }
 .search-button:hover{
   border: solid 2px rgb(79, 79, 250) !important;
-  color:rgb(79, 79, 250) !important;
+  color:  #fffc !important;
 }
 .loading-text{
   display: flex;

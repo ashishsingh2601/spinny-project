@@ -3,13 +3,18 @@ import AnimeCard from './components/AnimeCard';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const url = "https://api.jikan.moe/v3/search/anime?q=naruto&limit=16";
+const url = "https://api.jikan.moe/v3/search/anime?q=naruto&limit=48";
 
 const App = () => {
 
   const [animes, setAnimes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [visible, setVisible] = useState(8);
+
+  const handleLoadMore = () => {
+    setVisible(prevValue => prevValue + 8);
+  };
 
     const fetchAnimes  = useCallback(async () => {
       setIsLoading(true);
@@ -55,13 +60,14 @@ const App = () => {
     <React.Fragment>
     <form className="search-box-container">
       <input className="search-box" placeholder="Search..." name="search" onInput={filterAnimes}/>
-      <button className="btn btn-secondary search-button" type="submit">Go</button>
+      <button className="btn btn-transparent search-button" type="submit">Go</button>
     </form>
+    <div className="main-anime-card-container">
       <section className="main-container">
         {/* <div className="cards-container"> */}
 
         {!isLoading && animes.length > 0 && 
-          animes.map((anime, index)=>{
+          animes.slice(0, visible).map((anime, index)=>{
             return <AnimeCard animeData = {anime} key = {index} />
           })
         
@@ -85,8 +91,9 @@ const App = () => {
           <button className="load-more-button btn btn-transparent" type="submit">Load More...</button> 
         </div> */}
       </section>
+    </div>
       <div className="load-button-container w-100 text-center">
-          <button className="load-more-button btn btn-transparent" type="submit">Load More...</button> 
+          <button className="load-more-button btn btn-transparent" onClick={handleLoadMore} >Load More...</button> 
         </div>
       
     </React.Fragment>
