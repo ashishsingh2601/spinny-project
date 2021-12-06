@@ -6,10 +6,17 @@
 body{
   background-color: rgb(79, 79, 250) !important;
 }
+.loading-container{
+  width: 50%;
+  margin: auto;
+  color: #fff !important;
+}
 .main-container{
   width: 100%;
   /* display: grid;
   grid-template-columns: repeat(4, 1fr) !important; */
+  position: relative;
+  margin-top: 13.2rem;
   display: flex;
   flex-wrap: wrap;
   gap: 21px !important; 
@@ -28,6 +35,25 @@ body{
   border: solid 1px rgb(79, 79, 250) !important;
   background-color: rgb(116, 116, 255) !important;
   color: #fff !important;
+  position: sticky;
+}
+.header{
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  top: 0;
+  /* margin-top: 3rem; */
+  margin-bottom: 3rem;
+  /* position: relative; */
+  background-color: rgb(79, 79, 250) !important;
+}
+.content-body{
+  position: absolute;
+  margin-top: 12rem;
+}
+.load-more-footer{
+  position: absolute;
+  margin: 3rem auto;
 }
 ::placeholder{
   color: #fff !important;

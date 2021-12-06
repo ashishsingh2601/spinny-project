@@ -6,10 +6,12 @@ const SearchBar = (props) => {
             <form className="search-box-container" onSubmit={props.handleAnimeSearch}>
                <input 
                     className="search-box" 
-                    placeholder="Search..." 
+                    placeholder="Search..."
+                    required 
                     name="search" 
-                    value={props.query}
+                    value={props.search}
                     onInput={props.filterAnimes} 
+                    onChange={e=>props.setSearch(e.target.value)}
                 />
                <button 
                     className="btn btn-transparent search-button" 
