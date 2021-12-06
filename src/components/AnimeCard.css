@@ -7,5 +7,7 @@
     border-radius: 6px !important;
 }
 .anime-card:hover{
-    box-shadow: 3px 3px rgb(235, 234, 234);
+    transform: scale(1.08);
+    /* box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06); */
+    box-shadow: 0 10 20 rgba(0, 0, 0);
 }

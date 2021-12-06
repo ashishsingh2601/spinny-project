@@ -8,9 +8,11 @@ body{
 }
 .main-container{
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr) !important;
-  gap: 15px !important; 
+  /* display: grid;
+  grid-template-columns: repeat(4, 1fr) !important; */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 21px !important; 
 }
 .search-box-container{
   width: 50%;

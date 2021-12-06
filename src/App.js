@@ -1,19 +1,27 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import AnimeCard from './components/AnimeCard';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import SearchBar from './components/SearchBar';
+import Loading from './components/Loading';
+import Content from './components/Content';
+// import { SearchAnimeData } from './components/SearchAnimeData';
+// import LoadMore from './components/LoadMore';
 
 const url = "https://api.jikan.moe/v3/search/anime?q=naruto&limit=48";
 
 const App = () => {
 
   const [animes, setAnimes] = useState([]);
+  const [allAnimes, setAllAnimes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [visible, setVisible] = useState(8);
+  const [visible, setVisible] = useState(16);
+  const [query, setQuery] = useState();
+
+  
 
   const handleLoadMore = () => {
-    setVisible(prevValue => prevValue + 8);
+    setVisible(prevValue => prevValue + 16);
   };
 
     const fetchAnimes  = useCallback(async () => {
@@ -34,6 +42,7 @@ const App = () => {
       });
         console.log(transformedAnimesData);
         setAnimes(transformedAnimesData);
+        setAllAnimes(transformedAnimesData);
         
       }catch(error){
           setError(error.message);
@@ -50,52 +59,47 @@ const App = () => {
   const filterAnimes = event =>{
     event.preventDefault();
     const value = event.target.value.toLowerCase();
-    // const filteredAnime = 
+    setQuery(value);
+    const filteredAnimes = allAnimes.filter(
+      anime => (`${anime.title}`)
+      .toLowerCase()
+      .includes(value)
+    );
     console.log(event.target.value);
+    setAnimes(filteredAnimes);
   };
 
+    const handleAnimeSearch = event =>{
+      event.preventDefault();
+      fetchAnimesOnSearch(query);
+    };
 
+    const fetchAnimesOnSearch = async (animeQuery) => {
+      const temp  = await fetch(`https://api.jikan.moe/v3/search/anime?q=${animeQuery}&limit=48`)
+                          .then(res=>res.json());
+
+            const transformedAnimeSearchData = temp.results.map(item=>{
+              return {
+                id: item.mal_id,
+                title: item.title, 
+                imageUrl: item.image_url
+              };
+            });
+            console.log(transformedAnimeSearchData);
+            setAnimes(transformedAnimeSearchData);
+    };
 
   return (
     <React.Fragment>
-    <form className="search-box-container">
-      <input className="search-box" placeholder="Search..." name="search" onInput={filterAnimes}/>
-      <button className="btn btn-transparent search-button" type="submit">Go</button>
-    </form>
-    <div className="main-anime-card-container">
-      <section className="main-container">
-        {/* <div className="cards-container"> */}
+      <SearchBar filterAnimes = {filterAnimes} handleAnimeSearch={handleAnimeSearch} query={query}/>
+      <Loading isLoading={isLoading} error={error} url={url}/>
+      <Content isLoading={isLoading} error={error} visible={visible} animes={animes} />
+      {/* <LoadMore isLoading={isLoading} error={error} /> */}
 
-        {!isLoading && animes.length > 0 && 
-          animes.slice(0, visible).map((anime, index)=>{
-            return <AnimeCard animeData = {anime} key = {index} />
-          })
-        
-        /* <AnimeCard animes={animes} />} */
-        }
-        {!isLoading && animes.length === 0 && !error && <p>No Animes Found!!!</p>}
-        {isLoading && <p style={{
-                          
-                          width: '100%',
-                          color: '#fff',
-                          marginLeft: '27rem' 
-                          
-                          
-
-
-                                      }}>
-        Requesting: https://api.jikan.moe/v3/search/anime?q=naruto&limit=16</p>}
-        {!isLoading && error && <p>{error}</p>}
-        {/* </div> */}
-        {/* <div className="load-button-container w-100 text-center">
-          <button className="load-more-button btn btn-transparent" type="submit">Load More...</button> 
-        </div> */}
-      </section>
-    </div>
-      <div className="load-button-container w-100 text-center">
+      {!error && !isLoading && <div className="load-button-container w-100 text-center">
           <button className="load-more-button btn btn-transparent" onClick={handleLoadMore} >Load More...</button> 
         </div>
-      
+      }
     </React.Fragment>
   )
 }
