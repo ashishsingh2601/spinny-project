@@ -13,28 +13,13 @@ const App = () => {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState();
-  const [visible, setVisible] = useState(16);
-  // const [limit, setLimit] = useState(16);
   
     const prevSearch = usePrevious(search);
-    // const prevLimit = usePreviousLimit(limit);
-
     const handleAnimeSearch = event =>{
       event.preventDefault();
       console.log(search);
       fetchAnimesOnSearch(search, page);
     };
-
-    // function usePreviousLimit(value){
-    //   const limitRef = useRef();
-    //   useEffect(()=>{
-    //     limitRef.current = value;
-    //   });
-    //   return limitRef.current;
-    // }
-    // useEffect(()=>{
-      
-    // }, [prevLimit, limit]);
 
     function usePrevious(value){
       const ref = useRef();
@@ -52,14 +37,13 @@ const App = () => {
 
     const clearState = ()=>{
       setPage(1);
-      // setLimit(16);
     };
 
     const fetchAnimesOnSearch = useCallback(async (animeQuery, page) => {
       setIsLoading(true);
       setError(null);
       try{
-      const response  = await fetch(`https://api.jikan.moe/v3/search/anime?q=${animeQuery}&limit=16&page=${page}`)
+      const response  = await fetch(`https://api.jikan.moe/v3/search/anime?q=${animeQuery}&limit=16&page=${page}`);
           if(!response.ok){
             throw new Error("Something went wrong!!!");
           }                    
@@ -72,12 +56,9 @@ const App = () => {
                 imageUrl: item.image_url
               };
             });
-            console.log(transformedAnimeSearchData);
-            setAnimes(transformedAnimeSearchData);
+            console.log("transformed", transformedAnimeSearchData);
+            setAnimes(animes => [...animes, ...transformedAnimeSearchData]);
             setAllAnimes(transformedAnimeSearchData);
-            
-            // setAnimes(animes=>[...animes, transformedAnimeSearchData]);
-            // setAllAnimes(allAnimes=>[...allAnimes, transformedAnimeSearchData]);
       }catch(error){
         setError(error.message);
       }
@@ -86,8 +67,6 @@ const App = () => {
 
   const loadMoreAnimes = () =>{
     setPage(prevPage => prevPage + 1);
-    // setLimit(prevLimit => prevLimit + 16);
-    // console.log(limit);
     fetchAnimesOnSearch(search, page);
   };
 
@@ -111,7 +90,7 @@ const App = () => {
         <SearchBar filterAnimes={filterAnimes} handleAnimeSearch={handleAnimeSearch} search={search} clearState={clearState} setSearch={setSearch}/>
         <Loading isLoading={isLoading} error={error} search={search} page={page}/>
       </div>
-      <Content isLoading={isLoading} error={error} visible={visible}  animes={animes} setAnimes={setAnimes}/>
+      <Content isLoading={isLoading} error={error} animes={animes} setAnimes={setAnimes}/>
       {!error && !isLoading && <div className="load-button-container w-100 mt-6 text-center">
           <button className="load-more-button btn btn-transparent" onClick={loadMoreAnimes} >Load More...</button> 
         </div>

@@ -11,7 +11,7 @@ const Content = (props) => {
 
                 {!props.isLoading && props.animes.length > 0 && 
     
-                    props.animes.slice(0, props.visible).map((anime, index)=>{
+                    props.animes.map((anime, index)=>{
                     return <AnimeCard animeData = {anime} key = {index} />
                     })
                 }
