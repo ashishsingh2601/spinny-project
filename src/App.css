@@ -11,10 +11,11 @@ body{
   margin: auto;
   color: #fff !important;
 }
+.main-anime-card-container{
+    margin: 4.5rem;
+}
 .main-container{
   width: 100%;
-  /* display: grid;
-  grid-template-columns: repeat(4, 1fr) !important; */
   position: relative;
   margin-top: 13.2rem;
   display: flex;
@@ -22,7 +23,7 @@ body{
   gap: 21px !important; 
 }
 .search-box-container{
-  width: 50%;
+  width: 60%;
   margin: auto;
   margin-top: 3rem;
   margin-bottom: 3rem;
@@ -45,9 +46,7 @@ body{
   z-index: 999;
   width: 100%;
   top: 0;
-  /* margin-top: 3rem; */
   margin-bottom: 3rem;
-  /* position: relative; */
   background-color: rgb(79, 79, 250) !important;
 }
 .content-body{
